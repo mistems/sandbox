@@ -288,7 +288,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 question, question
             );
         } else if input.starts_with("#transpile") {
-            let source = std::fs::read_to_string(input.split_at(10).1.trim());
+            let rel_path = input.split_at(10).1.trim();
+            let current = std::env::current_dir()?;
+            let current = current.to_str().unwrap();
+            let source = std::fs::read_to_string(format!("{}\\{}", current, rel_path));
             if let Ok(source) = source {
                 let mut source = source;
                 source = source.replace('+', format!("{}{}", period, period).as_str());
