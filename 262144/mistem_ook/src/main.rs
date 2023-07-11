@@ -212,7 +212,15 @@ impl Runtime {
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // read config.json
-    let config = std::fs::read_to_string("config.json").unwrap();
+    let config_rel_path = "config.json";
+    let here = std::env::current_exe().unwrap();
+    // get back until the name of the directory is "mistem_ook"
+    let mut here = here.parent().unwrap();
+    while here.file_name().unwrap() != "mistem_ook" {
+        here = here.parent().unwrap();
+    }
+    let config_path = here.join(config_rel_path);
+    let config = std::fs::read_to_string(config_path).unwrap();
     let config: serde_json::Value = serde_json::from_str(&config).unwrap();
     let config = config.as_object().unwrap();
 
@@ -288,10 +296,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 question, question
             );
         } else if input.starts_with("#transpile") {
-            let rel_path = input.split_at(10).1.trim();
-            let current = std::env::current_dir()?;
-            let current = current.to_str().unwrap();
-            let source = std::fs::read_to_string(format!("{}\\{}", current, rel_path));
+            let source = std::fs::read_to_string(input.split_at(10).1.trim());
             if let Ok(source) = source {
                 let mut source = source;
                 source = source.replace('+', format!("{}{}", period, period).as_str());
