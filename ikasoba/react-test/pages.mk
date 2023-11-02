@@ -1,7 +1,5 @@
 init:
-	asdf plugin add deno https://github.com/asdf-community/asdf-deno.git
-	asdf install deno latest
-	asdf global deno latest
+	# とくにない
 
 build:
 	mkdir -p .www/ikasoba/ddsk
