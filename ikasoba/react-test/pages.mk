@@ -1,6 +1,4 @@
 init:
-	asdf install deno latest
-	asdf global deno latest
 
 build:
 	mkdir -p .www/ikasoba/ddsk
