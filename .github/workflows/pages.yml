@@ -18,6 +18,8 @@ jobs:
           version: 1.0
       - name: Install asdf & tools
         uses: asdf-vm/actions/install@v2
+      - name: Install asdf Plugins
+        uses: asdf-vm/actions/plugins-add@v2
       - name: Build projects
         run: |
           mkdir .www
