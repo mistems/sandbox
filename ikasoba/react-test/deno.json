@@ -1,0 +1,13 @@
+{
+  "lock": false,
+  "imports": {
+    "esbuild/": "https://deno.land/x/esbuild@v0.19.4/",
+    "esbuild_deno_loader/": "https://raw.githubusercontent.com/mxdvl/esbuild_deno_loader/patch-1/",
+    "path/": "https://deno.land/std@0.205.0/path/",
+    "preact/": "npm:/preact/"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact/"
+  }
+}
