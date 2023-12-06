@@ -1,0 +1,57 @@
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+name: pagesで公開
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: install dependencies
+        uses: awalsh128/cache-apt-pkgs-action@v1.3.1
+        with:
+          packages: make
+          version: 1.0
+      - name: Install asdf & tools
+        uses: asdf-vm/actions/install@v2
+      - name: Install asdf Plugins
+        uses: asdf-vm/actions/plugins-add@v2
+      - name: Build projects
+        run: |
+          mkdir .www
+          makefiles=$(find . -wholename "**/pages.mk")
+          export repository_root=$(pwd)
+
+          for makefile in $makefiles; do
+            prev_dir=$(pwd)
+            cd $(dirname $makefile)
+            make -f pages.mk init
+            make -f pages.mk build
+            cd $prev_dir
+          done
+        shell: bash
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: .www/
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
