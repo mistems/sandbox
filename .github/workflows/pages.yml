@@ -49,7 +49,7 @@ jobs:
           done
 
           echo "<ul>" > .www/index.html
-          find .www -type f -name *.html | xargs -I "{}" echo "<li><a href=\"{}\">{}</a></li>" >> .www/index.html
+          find .www -type f -name *.html | sed -E "s/^.www\\///g" | xargs -I "{}" echo "<li><a href=\"{}\">{}</a></li>" >> .www/index.html
           echo "</ul>" >> .www/index.html
         shell: bash
       - name: Upload Pages artifact
