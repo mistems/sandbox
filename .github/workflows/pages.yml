@@ -47,6 +47,10 @@ jobs:
             make -f pages.mk build
             cd $prev_dir
           done
+
+          echo "<ul>" > .www/index.html
+          find .www -type f -name *.html | xargs -I "{}" echo "<li><a href=\"{}\">{}</a></li>" >> .www/index.html
+          echo "</ul>" >> .www/index.html
         shell: bash
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v2
