@@ -48,8 +48,10 @@ jobs:
             cd $prev_dir
           done
 
-          echo "<ul>" > .www/index.html
-          find .www -type f -name *.html | sed -E "s/^.www\\///g" | xargs -I "{}" echo "<li><a href=\"{}\">{}</a></li>" >> .www/index.html
+          list=$(find .www -type f -name *.html | sed -E "s/^.www\\///g")
+          echo "<a href="https://github.com/mistems/sandbox"><h1>みすてむずサンドボックス</h1></a>" > .www/index.html
+          echo "<ul>" >> .www/index.html
+          echo $list | xargs -I "{}" echo "<li><a href=\"{}\">{}</a></li>" >> .www/index.html
           echo "</ul>" >> .www/index.html
         shell: bash
       - name: Upload Pages artifact
