@@ -6,10 +6,10 @@ public:
     explicit FizzBuzz_number(std::string str) : max(std::move(str)) {};
     void print() {
         std::string buf;
-        if (*current.rbegin() == '0' || *current.rbegin() == '5') {
+        if (getDigitSum() % 3 == 0) {
             buf += "Fizz ";
         }
-        if (getDigitSum() % 3 == 0) {
+        if (*current.rbegin() == '0' || *current.rbegin() == '5') {
             buf += "Buzz";
         }
         if (buf.empty()) {
